@@ -62,9 +62,10 @@ class Redis implements StorageInterface
     public function set($key, $value, $ttl=0)
     {
         if($ttl)
-            $this->redisClient->set($key, $value);
-        else
             $this->redisClient->set($key, $value, "EX", $ttl);
+        else
+            $this->redisClient->set($key, $value);
+
     }
 
     private function getLockKey($key)
