@@ -58,9 +58,10 @@ interface StorageInterface
      *
      * @param string $key
      * @param mixed $value
+     * @param int $ttl
      * @return void
      */
-    public function set($key, $value);
+    public function set($key, $value, $ttl=0);
 }
 
 

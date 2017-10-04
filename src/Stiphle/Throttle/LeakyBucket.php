@@ -64,10 +64,11 @@ class LeakyBucket implements ThrottleInterface
         /**
          * Lock, record and release 
          */
+        $ttl = ceil($milliseconds/1000);
         $this->storage->lock($key);
         $newRatio = $this->getNewRatio($key, $limit, $milliseconds);
-        $this->setLastRatio($key, $newRatio);
-        $this->setLastRequest($key, microtime(1));
+        $this->setLastRatio($key, $newRatio, $ttl);
+        $this->setLastRequest($key, microtime(1), $ttl);
         $this->storage->unlock($key);
         return $wait;
     }
@@ -160,11 +161,12 @@ class LeakyBucket implements ThrottleInterface
      *
      * @param string $key
      * @param float $ratio
+     * @param int $ttl
      * @return void
      */
-    protected function setLastRatio($key, $ratio)
+    protected function setLastRatio($key, $ratio, $ttl)
     {
-        return $this->storage->set($key . '::LASTRATIO', $ratio);
+        return $this->storage->set($key . '::LASTRATIO', $ratio, $ttl);
     }
 
     /**
@@ -183,10 +185,11 @@ class LeakyBucket implements ThrottleInterface
      *
      * @param string $key
      * @param float $request
+     * @param int $ttl
      * @return void
      */
-    protected function setLastRequest($key, $request)
+    protected function setLastRequest($key, $request, $ttl)
     {
-        return $this->storage->set($key . '::LASTREQUEST', $request);
+        return $this->storage->set($key . '::LASTREQUEST', $request, $ttl);
     }
 }
