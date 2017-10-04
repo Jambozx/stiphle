@@ -99,13 +99,14 @@ class Process implements StorageInterface
     }
 
     /**
-     * set 
+     * set
      *
      * @param string $key
      * @param mixed $value
+     * @param int $ttl
      * @return void
      */
-    public function set($key, $value)
+    public function set($key, $value, $ttl=0)
     {
         $this->values[$key] = $value;
     }

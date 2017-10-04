@@ -136,9 +136,10 @@ class Memcached implements StorageInterface
      *
      * @param string $key
      * @param mixed $value
+     * @param int $ttl
      * @return void
      */
-    public function set($key, $value)
+    public function set($key, $value, $ttl=0)
     {
         $this->memcached->set($key, $value, $this->ttl);
         return;

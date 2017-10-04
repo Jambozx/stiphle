@@ -64,7 +64,7 @@ class DoctrineCache implements StorageInterface
         return $this->cache->fetch($key);
     }
 
-    public function set($key, $value)
+    public function set($key, $value, $ttl=0)
     {
         $this->cache->save($key, $value);
         return;
